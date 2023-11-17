@@ -3,7 +3,8 @@
 
 int main()
 {
-    employee CCC("read.txt", "write.txt");
+    employee CCC("read.csv", "write.csv");
     CCC.ReadFromFile();
     CCC.WriteToFile();
+    CCC.CloseFiles();
 }

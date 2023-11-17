@@ -20,43 +20,51 @@ void employee::ReadFromFile()
 				AddToRow(token);
 
 			}
-			
+
 			AddToLine();
 		}
-		
-
 	}
-	int sizeR = this->emp.size();
-	int sizeC = this->emp[0].size();
-	for (int c = 0; c < sizeR; c++)
+	else
 	{
-		for (int r = 0; r < sizeC; r++)
-		{
-			cout << this->emp[c][r] << ",";
-		}
-		cout << endl;
+		cout << "Something is wrong with input file"<< endl;
 	}
-	
 }
 
 void employee::WriteToFile()
-{
-	int sizeR = this->emp.size();
-	int sizeC = this->emp[0].size();
-	string changePlaces;
-	for (int r = 0; r < sizeR; r++)
+{	
+	if (empout.is_open())
 	{
-		changePlaces = emp[r][1] + " " + emp[r][0];
-		temp.push_back(changePlaces);
-		for (int i = 0; i < sizeC; i++)
+		int sizeR = this->emp.size();
+		int sizeC = this->emp[0].size();
+		bool notFirst = false;
+		for (int c = 0; c < sizeR; c++)
 		{
-			temp.push_back("," + emp[r][i]);
-		}
-		temp.erase(temp.begin() + 1, temp.begin() + 3);
-		emp.push_back(temp);
-		temp.clear();
-	}
+			for (int r = 0; r < sizeC; r++)
+			{
+				if (notFirst == true) {
+					empout << ",";
 
+				}
+				notFirst = true;
+				empout << this->emp[c][r];
+			}
+			empout << endl;
+			notFirst = false;
+		}
+		
+	}
+	else
+	{
+		cout << "Something is wrong with output file" << endl;
+	}
+	
+
+}
+
+void employee::CloseFiles()
+{
+	empin.close();
+	empout.close();
 }
 
 void employee::AddToRow(string token)
@@ -66,6 +74,14 @@ void employee::AddToRow(string token)
 
 void employee::AddToLine()
 {
+	string changePlaces;
+	
+	changePlaces = temp[1] + " " + temp[0];
+	temp.erase(temp.begin(), temp.begin() + 2);
+	temp.insert(temp.begin(), changePlaces);
 	emp.push_back(temp);
 	temp.clear();
+	
+	
+	
 }
